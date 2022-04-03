@@ -13,13 +13,13 @@ function setup() {
     createCanvas(400, 400, WEBGL)
 
     cam = createCamera()
-    cam.setPosition(0, 0, 200)
+    cam.setPosition(0, 0, 300)
 
     for (let i = 0; i < 16; i++) {
         coords[i] = []
         let k = i
         for (let j = 3; j >= 0; j--) {
-            coords[i][j] = k & 1
+            coords[i][j] = (k & 1) == 0 ? -1 : 1
             k >>= 1
         }
         labels[i] = coords[i].join("")
@@ -37,13 +37,14 @@ function setup() {
 
 function draw() {
     background(0)
+    
+    rotateY(HALF_PI-0.5)
 
     const angle = frameCount * 0.01
 
     const projected = coords.map((c) => {
-        c = math.multiply(c, rotateZW(angle))
-        c = math.multiply(c, rotateYW(angle))
-        c = math.multiply(c, rotateXW(angle))
+        c = math.matrix(c)
+        c = math.multiply(c, rotateXZW(angle))
         c = math.multiply(c, project(c.get([3])))
         c = math.multiply(c, s)
         c = math.add(c, offset)
@@ -69,12 +70,22 @@ function draw() {
 }
 
 function project(w) {
-    const d = 1.5
+    const d = 2
+    const p = 1 / (d - w)
     return math.matrix([
-        [1 / (d - w), 0, 0, 0],
-        [0, 1 / (d - w), 0, 0],
-        [0, 0, 1 / (d - w), 0],
+        [p, 0, 0, 0],
+        [0, p, 0, 0],
+        [0, 0, p, 0],
         [0, 0, 0, 0]
+    ])
+}
+
+function rotateXZW(angle) {
+    return math.matrix([
+        [cos(angle), -sin(angle), 0, 0],
+        [sin(angle), cos(angle), 0, 0],
+        [0, 0, cos(angle), -sin(angle)],
+        [0, 0, sin(angle), cos(angle)]
     ])
 }
 
@@ -88,33 +99,4 @@ function hammingDistance(x, y) {
         i >>= 1
     }
     return distance
-}
-
-// https://en.wikipedia.org/wiki/Rotation_matrix
-
-function rotateXW(angle) {
-    return math.matrix([
-        [cos(angle), 0, 0, -sin(angle)],
-        [0, 1, 0, 0],
-        [0, 0, 1, 0],
-        [sin(angle), 0, 0, cos(angle)]
-    ])
-}
-
-function rotateYW(angle) {
-    return math.matrix([
-        [1, 0, 0, 0],
-        [0, cos(angle), 0, sin(angle)],
-        [0, 0, 1, 0],
-        [0, -sin(angle), 0, cos(angle)]
-    ])
-}
-
-function rotateZW(angle) {
-    return math.matrix([
-        [1, 0, 0, 0],
-        [0, 1, 0, 0],
-        [0, 0, cos(angle), -sin(angle)],
-        [0, 0, sin(angle), cos(angle)]
-    ])
 }
