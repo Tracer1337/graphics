@@ -1,13 +1,13 @@
 // https://www.myphysicslab.com/pendulum/double-pendulum-en.html
 
-let m1 = 20
-let L1 = 100
+let m1 = 0
+let L1 = 0
 let a1 = 0
 let a1_v = 0
 let a1_a = 0
 
-let m2 = 20
-let L2 = 100
+let m2 = 0
+let L2 = 0
 let a2 = 0
 let a2_v = 0
 let a2_a = 0
@@ -19,12 +19,16 @@ let cx, cy
 let d = 0.99999
 
 function setup() {
-    createCanvas(400, 400)
+    createCanvas(innerWidth, innerHeight)
     a1 = -QUARTER_PI
     a2 = QUARTER_PI / 2
 
+    L1 = L2 = height / 4
+
+    m1 = m2 = height / 25
+
     cx = width / 2
-    cy = 50
+    cy = height / 4
 }
 
 function draw() {

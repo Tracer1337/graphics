@@ -3,7 +3,7 @@ let player
 let controls
 
 function setup() {
-    createCanvas(600, 600)
+    createCanvas(innerWidth, innerHeight)
 
     for (let i = 0; i < 10; i++) {
         walls.push(new Boundary(
@@ -18,7 +18,7 @@ function setup() {
     walls.push(new Boundary(createVector(0, height), createVector(0, 0)))
 
     player = new Player(width / 2, height / 2)
-    controls = new Controls(player, 2)
+    controls = new Controls(player, 4)
 }
 
 function draw() {

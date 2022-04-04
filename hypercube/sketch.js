@@ -10,7 +10,7 @@ let coords = []
 let edges = []
 
 function setup() {
-    createCanvas(400, 400, WEBGL)
+    createCanvas(innerWidth, innerHeight, WEBGL)
 
     cam = createCamera()
     cam.setPosition(0, 0, 300)
