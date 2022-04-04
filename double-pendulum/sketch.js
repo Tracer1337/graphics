@@ -18,6 +18,9 @@ let cx, cy
 
 let d = 0.99999
 
+let trail = []
+const trailLength = 10000
+
 function setup() {
     createCanvas(innerWidth, innerHeight)
     a1 = -QUARTER_PI
@@ -34,6 +37,7 @@ function setup() {
 function draw() {
     if (mouseIsPressed) {
         a1 = Math.atan2(mouseY - cy, mouseX - cx) - HALF_PI
+        trail = []
     } else {
         update()
     }
@@ -54,6 +58,19 @@ function draw() {
     let y2 = y1 + cos(-a2) * L2
     line(x1, y1, x2, y2)
     ellipse(x2, y2, m2)
+
+    trail.push(createVector(x2, y2))
+    if (trail.length > trailLength) {
+        trail.shift()
+    }
+
+    noFill()
+    stroke(255, 50)
+    beginShape()
+    trail.forEach((p) => {
+        vertex(p.x, p.y)
+    })
+    endShape()
 
     resetMatrix()
 }
