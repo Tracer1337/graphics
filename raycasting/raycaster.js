@@ -1,15 +1,20 @@
 class Raycaster {
-    constructor(pos, rays = 360) {
+    constructor(pos, rays, fov) {
         this.pos = pos
+        this.dir = createVector(0, 0)
         this.rays = []
+        this.fov = radians(fov)
+
         for (let i = 0; i < rays; i++) {
-            const angle = i / rays * TWO_PI
+            const angle = i / rays * this.fov
             this.rays[i] = new Ray(this.pos, angle)
         }
     }
 
-    update(x, y) {
-        this.pos.set(x, y)
+    update() {
+        this.rays.forEach((ray) => {
+            ray.dir = this.dir.copy().rotate(ray.angle - this.fov / 2)
+        })
     }
 
     cast(walls) {

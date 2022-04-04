@@ -1,6 +1,7 @@
 class Ray {
     constructor(pos, angle) {
         this.pos = pos
+        this.angle = angle
         this.dir = p5.Vector.fromAngle(angle)
     }
 

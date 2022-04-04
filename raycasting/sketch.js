@@ -1,5 +1,6 @@
 let walls = []
-let raycaster
+let player
+let controls
 
 function setup() {
     createCanvas(600, 600)
@@ -16,7 +17,8 @@ function setup() {
     walls.push(new Boundary(createVector(width, height), createVector(0, height)))
     walls.push(new Boundary(createVector(0, height), createVector(0, 0)))
 
-    raycaster = new Raycaster(createVector(width / 2, height / 2))
+    player = new Player(width / 2, height / 2)
+    controls = new Controls(player, 2)
 }
 
 function draw() {
@@ -24,7 +26,8 @@ function draw() {
 
     walls.forEach((w) => w.draw())
 
-    raycaster.update(mouseX, mouseY)
-    raycaster.cast(walls)
-    raycaster.draw()
+    controls.update()
+
+    player.update()
+    player.draw()
 }
