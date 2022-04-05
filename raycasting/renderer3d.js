@@ -5,7 +5,6 @@ class Renderer3D {
     }
 
     draw(walls) {
-        fill(255)
         noStroke()
         const cellWidth = width / this.raycaster.rays.length
         this.raycaster.rays.forEach((ray, i) => {
@@ -15,7 +14,9 @@ class Renderer3D {
                 if (d === 0) {
                     return
                 }
-                const cellHeight = this.max / d * 100
+                const r = this.max / d
+                fill(155 * r + 100)
+                const cellHeight = r * 100
                 rect(i * cellWidth, height / 2 - cellHeight / 2, cellWidth, cellHeight)
             }
         })

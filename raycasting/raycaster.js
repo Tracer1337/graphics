@@ -1,7 +1,7 @@
 class Raycaster {
     constructor(pos, rays, fov) {
         this.pos = pos
-        this.dir = createVector(0, 0)
+        this.dir = createVector(1, 1)
         this.rays = []
         this.fov = radians(fov)
 
@@ -18,13 +18,18 @@ class Raycaster {
     }
 
     move(dir) {
-        this.pos.add(dir)
+        const angle = dir.angleBetween(createVector(1, 0)) + HALF_PI
+        this.pos.add(this.dir.copy().rotate(angle))
     }
 
     lookAt(point) {
         this.dir.x = point.x - this.pos.x
         this.dir.y = point.y - this.pos.y
         this.dir.normalize()
+    }
+
+    rotate(angle) {
+        this.dir.rotate(angle)
     }
 
     draw(walls) {

@@ -23,18 +23,20 @@ function setup() {
 
     raycaster = new Raycaster(createVector(dim2d.x / 2, dim2d.y / 2), 100, 40)
     renderer = new Renderer3D(raycaster, 100)
-    controls = new Controls(raycaster, 4)
+    controls = new Controls(raycaster, 0.3, 0.02)
 }
 
 function draw() {
     background(0)
 
-    walls.forEach((w) => w.draw())
-
     controls.update()
-
+    
     raycaster.update()
-    raycaster.draw(walls)
-
+    
     renderer.draw(walls)
+    
+    fill(0)
+    rect(0, 0, dim2d.x, dim2d.y)
+    walls.forEach((w) => w.draw())
+    raycaster.draw(walls)
 }
