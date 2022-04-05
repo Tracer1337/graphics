@@ -1,7 +1,7 @@
 class Controls {
-    constructor(player, vel) {
+    constructor(raycaster, vel) {
         this.vel = vel
-        this.player = player
+        this.raycaster = raycaster
     }
 
     update() {
@@ -19,8 +19,7 @@ class Controls {
             dir.y += 1
         }
         dir.setMag(this.vel)
-        this.player.move(dir)
-
-        this.player.lookAt(createVector(mouseX, mouseY))
+        this.raycaster.move(dir)
+        this.raycaster.lookAt(createVector(mouseX, mouseY))
     }
 }

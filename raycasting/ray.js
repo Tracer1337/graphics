@@ -5,8 +5,20 @@ class Ray {
         this.dir = p5.Vector.fromAngle(angle)
     }
 
+    cast(walls) {
+        let closest, minDist = Infinity
+        walls.forEach((wall) => {
+            const [point, dist] = this.getPoint(wall)
+            if (point && dist < minDist) {
+                minDist = dist
+                closest = point
+            }
+        })
+        return closest
+    }
+
     // https://en.wikipedia.org/wiki/Line%E2%80%93line_intersection
-    cast(wall) {
+    getPoint(wall) {
         const x1 = wall.a.x
         const y1 = wall.a.y
         const x2 = wall.b.x

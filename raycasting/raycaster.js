@@ -17,25 +17,25 @@ class Raycaster {
         })
     }
 
-    cast(walls) {
+    move(dir) {
+        this.pos.add(dir)
+    }
+
+    lookAt(point) {
+        this.dir.x = point.x - this.pos.x
+        this.dir.y = point.y - this.pos.y
+        this.dir.normalize()
+    }
+
+    draw(walls) {
         stroke(255, 100)
         strokeWeight(2)
         this.rays.forEach((ray) => {
-            let closest, minDist = Infinity
-            walls.forEach((wall) => {
-                const [point, dist] = ray.cast(wall)
-                if (point && dist < minDist) {
-                    minDist = dist
-                    closest = point
-                }
-            })
-            if (closest) {
-                line(ray.pos.x, ray.pos.y, closest.x, closest.y)
+            const p = ray.cast(walls)
+            if (p) {
+                line(ray.pos.x, ray.pos.y, p.x, p.y)
             }
         })
-    }
-
-    draw() {
         fill(255)
         ellipse(this.pos.x, this.pos.y, 10)
     }
