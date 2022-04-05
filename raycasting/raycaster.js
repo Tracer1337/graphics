@@ -18,8 +18,10 @@ class Raycaster {
     }
 
     move(dir) {
-        const angle = dir.angleBetween(createVector(1, 0)) + HALF_PI
-        this.pos.add(this.dir.copy().rotate(angle))
+        if (dir.mag() > 0) {
+            const angle = dir.angleBetween(createVector(1, 0)) + HALF_PI
+            this.pos.add(this.dir.copy().rotate(angle).setMag(dir.mag()))
+        }
     }
 
     lookAt(point) {

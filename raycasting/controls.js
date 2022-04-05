@@ -1,19 +1,24 @@
 class Controls {
-    constructor(raycaster, moveVel, rotateVel) {
+    constructor(raycaster, moveVel, rotateVel, sens) {
         this.moveVel = moveVel
         this.rotateVel = rotateVel
+        this.sens = sens * 500
         this.raycaster = raycaster
     }
 
     update() {
         let angle = 0
-        if (keyIsDown(LEFT_ARROW)) {
-            angle -= 1
+        if (document.pointerLockElement) {
+            angle += movedX / this.sens
+        } else {
+            if (keyIsDown(LEFT_ARROW)) {
+                angle -= 1
+            }
+            if (keyIsDown(RIGHT_ARROW)) {
+                angle += 1
+            }
+            angle *= this.rotateVel
         }
-        if (keyIsDown(RIGHT_ARROW)) {
-            angle += 1
-        }
-        angle *= this.rotateVel
         this.raycaster.rotate(angle)
 
         const dir = createVector(0, 0)

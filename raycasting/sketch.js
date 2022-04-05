@@ -3,9 +3,12 @@ let controls
 let raycaster
 let renderer
 let dim2d
+let canvas
 
 function setup() {
-    createCanvas(innerWidth, innerHeight)
+    canvas = createCanvas(innerWidth, innerHeight)
+
+    canvas.canvas.addEventListener("click", requestPointerLock)
 
     dim2d = createVector(250, 250)
 
@@ -23,7 +26,7 @@ function setup() {
 
     raycaster = new Raycaster(createVector(dim2d.x / 2, dim2d.y / 2), 100, 40)
     renderer = new Renderer3D(raycaster, 100)
-    controls = new Controls(raycaster, 0.3, 0.02)
+    controls = new Controls(raycaster, 0.5, 0.02, 1)
 }
 
 function draw() {

@@ -15,7 +15,7 @@ class Renderer3D {
                     return
                 }
                 const r = this.max / d
-                fill(155 * r + 100)
+                fill(200 * r + 55)
                 const cellHeight = r * 100
                 rect(i * cellWidth, height / 2 - cellHeight / 2, cellWidth, cellHeight)
             }
