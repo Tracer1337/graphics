@@ -1,10 +1,9 @@
 import * as THREE from "three"
 import { OrbitControls } from "orbit-controls"
+import Stats from "stats"
 import Cubie from "./Cubie.js"
 
 class Cube {
-    constructor() {}
-
     init() {
         this.scene = new THREE.Scene()
 
@@ -25,7 +24,7 @@ class Cube {
 
         this.scene.add(new THREE.PointLightHelper(this.pointLight, .5))
 
-        this.renderer = new THREE.WebGLRenderer()
+        this.renderer = new THREE.WebGLRenderer({ antialias: true })
         this.renderer.setSize(window.innerWidth, window.innerHeight)
         document.body.appendChild(this.renderer.domElement)
 
@@ -34,15 +33,33 @@ class Cube {
         this.axesHelper = new THREE.AxesHelper(10)
         this.scene.add(this.axesHelper)
 
-        new Cubie().addToScene(this.scene)
+        this.stats = new Stats()
+        document.body.appendChild(this.stats.dom)
+
+        this.createCubies()
     
         this.animate()
     }
 
     animate() {
         this.renderer.render(this.scene, this.camera)
+
+        this.stats.update()
     
         requestAnimationFrame(this.animate.bind(this))
+    }
+
+    createCubies() {
+        for (let x = -1; x <= 1; x++) {
+            for (let y = -1; y <= 1; y++) {
+                for (let z = -1; z <= 1; z++) {
+                    const matrix = new THREE.Matrix4()
+                    matrix.makeTranslation(x, y, z)
+                    const cubie = new Cubie(matrix)
+                    cubie.addToScene(this.scene)
+                }
+            }
+        }
     }
 }
 

@@ -1,10 +1,13 @@
 import * as THREE from "three"
 
 class Cubie {
-    constructor() {
+    constructor(matrix) {
         this.material = new THREE.MeshLambertMaterial()
-        this.geometry = new THREE.BoxGeometry(1, 1, 1)
+        const size = 0.98
+        this.geometry = new THREE.BoxGeometry(size, size, size)
         this.mesh = new THREE.Mesh(this.geometry, this.material)
+        this.mesh.matrixAutoUpdate = false
+        this.mesh.applyMatrix4(matrix)
     }
 
     addToScene(scene) {
